@@ -4,13 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuanTrip AI</title>
-  
-  <!-- Corrected Stylesheet Link -->
+
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="/static/style.css">
 </head>
 
-
 <body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a class="brand" href="/">
+      <span class="brand-logo">✈️</span>
+      <span class="brand-name">QuanTrip AI</span>
+    </a>
+    <span class="nav-tag">Smart Travel Planning</span>
+  </nav>
 
   <div class="container">
 
@@ -45,8 +53,8 @@
             <option value="Amritsar"></option>
             <option value="Goa"></option>
             <option value="Manali"></option>
-            <option value="Jaipur"></option>
-            <option value="Munnar"></option>
+            <option value="Delhi"></option>
+            <option value="Mumbai"></option>
           </datalist>
         </div>
 
@@ -99,23 +107,19 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label" for="interests">
-            Travel Interests (Ctrl/Cmd + click for multiple)
+          <label class="form-label">
+            Travel Interests
+            <span class="label-hint">(tap to select one or more)</span>
           </label>
 
-          <select
-            class="form-input"
-            id="interests"
-            multiple
-            size="5"
-            required
-          >
-            <option value="nature">Nature</option>
-            <option value="historical">Historical</option>
-            <option value="food">Food</option>
-            <option value="shopping">Shopping</option>
-            <option value="religious">Religious</option>
-          </select>
+          <!-- Clickable multi-select chips -->
+          <div class="chips" id="interests">
+            <button type="button" class="chip" data-value="nature">Nature</button>
+            <button type="button" class="chip" data-value="historical">Historical</button>
+            <button type="button" class="chip" data-value="food">Food</button>
+            <button type="button" class="chip" data-value="shopping">Shopping</button>
+            <button type="button" class="chip" data-value="religious">Religious</button>
+          </div>
         </div>
 
         <button
@@ -145,9 +149,24 @@
 
   </div>
 
-  <pre id="output"></pre>
 
   <script>
+    // --- Chip multi-select: toggle "active" class on click ---
+    const chipBox = document.getElementById("interests");
+    chipBox.addEventListener("click", function (e) {
+      const chip = e.target.closest(".chip");
+      if (chip) chip.classList.toggle("active");
+    });
+
+    // helper: read all selected chip values
+    function getSelectedInterests() {
+      return Array.from(
+        chipBox.querySelectorAll(".chip.active")
+      ).map(function (chip) {
+        return chip.dataset.value;
+      });
+    }
+
     const form = document.getElementById("itinerary-form");
 
     form.addEventListener("submit", async function (event) {
@@ -155,11 +174,7 @@
 
       const output = document.getElementById("output");
 
-      const interests = Array.from(
-        document.getElementById("interests").selectedOptions
-      ).map(function (option) {
-        return option.value;
-      });
+      const interests = getSelectedInterests();
 
       const payload = {
         destination: document

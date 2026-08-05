@@ -18,15 +18,11 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent
 RAG_DIR = BASE_DIR / "rag"
 
-# Let "from src.xxx" and "from pipeline import ..." work from the root
+
 sys.path.insert(0, str(RAG_DIR))
 
  
 
-
-# ---------------------------------------------------------
-# Config (auto-find data / chroma_db)
-# ---------------------------------------------------------
 def _resolve(folder_name):
     rag_path = RAG_DIR / folder_name
     root_path = BASE_DIR / folder_name
@@ -44,14 +40,13 @@ def _resolve(folder_name):
 DATA_FOLDER = _resolve("data")
 CHROMA_DIR = _resolve("chroma_db")
 
+
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 GEMINI_MODEL = "gemini-3.1-flash-lite"
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
-# ---------------------------------------------------------
-# Build the pipeline ONCE at startup
-# ---------------------------------------------------------
+
 pipeline = RAGPipeline(
     data_folder=DATA_FOLDER,
     chroma_dir=CHROMA_DIR,
@@ -59,11 +54,8 @@ pipeline = RAGPipeline(
     gemini_model=GEMINI_MODEL,
     gemini_api_key=GEMINI_API_KEY,
 )
+ 
 
-
-# ---------------------------------------------------------
-# FastAPI
-# ---------------------------------------------------------
 app = FastAPI(title="QuanTrip AI")
 
 templates = Jinja2Templates(
