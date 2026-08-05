@@ -15,7 +15,8 @@ class Generator:
 
     def generate(self, prompt: str) -> str:
         response = self.model.invoke(prompt)
-        return response.content[0]["text"]
+        content = response.content
+        return content[0]["text"] if isinstance(content, list) else content
 
     def build_prompt(
         self,
