@@ -1,22 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quant Trip AI — Smart Travel Planning</title>
-  <link rel="stylesheet" href="/static/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuanTrip AI</title>
+  
+  <!-- Corrected Stylesheet Link -->
+  <link rel="stylesheet" href="/static/style.css">
 </head>
+
+
 <body>
-  <header class="app-header">
-    <h1>✈️ QuanTrip AI</h1>
-    <p class="tagline">Smart Travel Planning Made Simple</p>
-  </header>
 
+  <div class="container">
 
-  <footer class="app-footer">
-    QuanTrip AI | Vision Vanguard | AI Services- Capstone Project
-  </footer>
+    <h2 class="page-title">
+      Smart Itinerary Generator
+    </h2>
 
-  <script></script>
+    <p class="page-subtitle">
+      Generate personalized travel itineraries using AI
+    </p>
+
+    <div class="card">
+
+      <form id="itinerary-form">
+
+        <div class="form-group">
+          <label class="form-label" for="destination">
+            Destination
+          </label>
+
+          <input
+            class="form-input"
+            type="text"
+            list="dest-options"
+            id="destination"
+            placeholder="e.g. Goa"
+            autocomplete="off"
+            required
+          />
+
+          <datalist id="dest-options">
+            <option value="Amritsar"></option>
+            <option value="Goa"></option>
+            <option value="Manali"></option>
+            <option value="Jaipur"></option>
+            <option value="Munnar"></option>
+          </datalist>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="days">
+            No. of Days
+          </label>
+
+          <input
+            class="form-input"
+            type="number"
+            id="days"
+            min="1"
+            max="30"
+            value="3"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="budget">
+            Budget
+          </label>
+
+          <select
+            class="form-input"
+            id="budget"
+            required
+          >
+            <option value="economy">Economy</option>
+            <option value="moderate" selected>Moderate</option>
+            <option value="luxury">Luxury</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="traveller_count">
+            Traveller Count
+          </label>
+
+          <input
+            class="form-input"
+            type="number"
+            id="traveller_count"
+            min="1"
+            max="50"
+            value="1"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="interests">
+            Travel Interests (Ctrl/Cmd + click for multiple)
+          </label>
+
+          <select
+            class="form-input"
+            id="interests"
+            multiple
+            size="5"
+            required
+          >
+            <option value="nature">Nature</option>
+            <option value="historical">Historical</option>
+            <option value="food">Food</option>
+            <option value="shopping">Shopping</option>
+            <option value="religious">Religious</option>
+          </select>
+        </div>
+
+        <button
+          class="submit-btn"
+          type="submit"
+        >
+          Generate Itinerary
+        </button>
+
+      </form>
+    </div>
+
+    <div class="card">
+
+      <div class="section-title">
+        Generated Itinerary
+      </div>
+
+      <div
+        id="output"
+        class="output-card"
+      >
+        Your itinerary will appear here...
+      </div>
+
+    </div>
+
+  </div>
+
+  <pre id="output"></pre>
+
+  <script>
+    const form = document.getElementById("itinerary-form");
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      const output = document.getElementById("output");
+
+      const interests = Array.from(
+        document.getElementById("interests").selectedOptions
+      ).map(function (option) {
+        return option.value;
+      });
+
+      const payload = {
+        destination: document
+          .getElementById("destination")
+          .value
+          .trim(),
+
+        days: parseInt(
+          document.getElementById("days").value,
+          10
+        ),
+
+        budget: document
+          .getElementById("budget")
+          .value,
+
+        traveller_count: parseInt(
+          document.getElementById("traveller_count").value,
+          10
+        ),
+
+        interests: interests
+      };
+
+      output.textContent =
+        "Generating itinerary. Please wait...";
+
+      try {
+        const response = await fetch("/api/itinerary", {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(
+            typeof data.detail === "string"
+              ? data.detail
+              : JSON.stringify(data.detail)
+          );
+        }
+
+        output.textContent =
+          data.plan || JSON.stringify(data, null, 2);
+
+      } catch (error) {
+        output.textContent =
+          "Error: " + error.message;
+      }
+    });
+  </script>
 </body>
 </html>

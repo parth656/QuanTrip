@@ -1,0 +1,119 @@
+/* QuanTrip AI - dark blue, high-contrast theme */
+
+:root {
+  --bg: #0a1428;
+  --bg-elevated: #10203f;
+  --card: #14294d;
+  --border: #274472;
+  --accent: #3d7dff;
+  --accent-hover: #5a92ff;
+  --text: #eaf1ff;
+  --text-muted: #9fb3d1;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box;
+    font-family: "Segoe UI", Inter, Arial, sans-serif; }
+
+body { min-height: 100vh; background: var(--bg); color: var(--text); }
+
+/* --- Navbar --- */
+.navbar {
+  display: flex;
+  align-items: center;
+  background: var(--bg-elevated);
+  border-bottom: 2px solid var(--border);
+  padding: 16px 24px;
+}
+.brand { font-size: 22px; font-weight: 900; color: var(--accent); text-decoration: none; }
+
+/* --- Layout --- */
+.container { max-width: 820px; margin: 0 auto; padding: 28px 20px; }
+
+.back-btn { display: inline-block; color: var(--text-muted); text-decoration: none;
+            font-weight: 700; margin-bottom: 16px; }
+.back-btn:hover { color: var(--accent); }
+
+.page-title { font-size: 28px; margin-bottom: 6px; }
+.page-subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+
+/* --- Card --- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.section-title {
+  font-size: 18px; font-weight: 800; margin-bottom: 18px;
+  border-left: 4px solid var(--accent); padding-left: 10px;
+}
+
+/* --- Form --- */
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; margin-bottom: 8px; font-size: 14px;
+              font-weight: 700; color: var(--text-muted); }
+
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.form-input:focus { border-color: var(--accent); }
+select[multiple].form-input option { padding: 6px; }
+
+/* --- Button --- */
+.submit-btn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.submit-btn:hover { background: var(--accent-hover); }
+
+/* --- Output --- */
+.output-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  min-height: 80px;
+}
+
+@media (max-width: 600px) {
+  .page-title { font-size: 24px; }
+  .container { padding: 20px 14px; }
+}
+
+.page-title{
+    text-align:center;
+    margin-top:30px;
+    margin-bottom:10px;
+    font-size:32px;
+    color:var(--text);
+}
+
+.page-subtitle{
+    text-align:center;
+    margin-bottom:25px;
+    color:var(--text-muted);
+}
+

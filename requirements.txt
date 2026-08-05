@@ -4,3 +4,13 @@ pydantic==2.7.4
 python-multipart==0.0.9
 
 
+
+langchain
+langchain-community
+jq
+langchain-huggingface
+sentence-transformers
+langchain-chroma
+langchain-google-genai
+python-dotenv
+
